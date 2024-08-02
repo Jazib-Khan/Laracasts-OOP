@@ -1,40 +1,35 @@
 <?php
-// abstract key words removes the ability to instantiate the class directly, it's a template of sorts.
-// we can have abstract classes and methods. Abstract methods are a requirements so if the class is extended it must be included.
 
-abstract class AchievementType
+interface Newsletter
 {
-    public function name()
-    {
-        $class = (new ReflectionClass($this))->getShortName();
-
-        return trim(preg_replace('/[A-Z]/', ' $0', $class));
-    }
-
-    public function icon()
-    {
-        return strtolower(str_replace(' ', '-', $this->name())). '.png';
-    }
-
-    abstract public function qualifier($user);
+    public function subscribe($email);
 }
 
-class FirstThousandPoints extends AchievementType
+class CampaignMonitor implements Newsletter
 {
-    public function qualifier($user)
+    public function subscribe($email)
     {
-
-    }
-} 
-
-class ReachTop50 extends AchievementType
-{
-    public function qualifier($user)
-    {
-
+        die('subscribing with Campaign Monitor');
     }
 }
 
-$achievement = new FirstThousandPoints();
-echo $achievement->name(); 
-echo $achievement->icon(); 
+class Drip implements Newsletter
+{
+    public function subscribe($email)
+    {
+        die('subscribing with Drip');
+    }
+}
+
+class NewsletterSubscriptionsController
+{
+    public function store(Newsletter $newsletter)
+    {
+        $email = 'joe@example.com';
+        $newsletter->subscribe($email);
+    }
+}
+
+$controller = new NewsletterSubscriptionsController();
+
+$controller->store(new Drip());
