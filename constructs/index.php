@@ -1,59 +1,49 @@
 <?php
-// class is like a blueprint
-// an object is an implementation of that blueprint
-class Team {
 
-    protected $name;
+class Collection 
+{
+    protected array $items;
 
-    protected $members = [];
-
-    public function __construct($name, $members = []) {
-        $this->name = $name;
-        $this->members = $members;
+    public function __construct(array $items) 
+    {
+        $this->items = $items;
     }
 
-    public static function start(...$params) {
-        return new static(...$params);
-    }
-
-    public function name() {
-        return $this->name;
-    }
-
-    public function members() {
-        return $this->members;
-    }
-
-    public function add($name) {
-        $this->members[] = $name;
-    }
-
-    public function cancel() {
-
-    }
-
-    public function manager() {
-
-    }
-
-}
-
-class Member {
-    protected $name;
-
-    public function __construct($name) {
-        $this->name = $name;
-    }
-
-    public function lastViewed() {
-
+    public function sum($key) 
+    {
+        return array_sum(array_column($this->items, $key));
     }
 }
 
-$acme = Team::start('Acme'. [
-    new Member('John Doe'),
-    new Member('Jane Doe')
+class VideosCollection extends Collection 
+{
+    public function length() 
+    {
+        return $this->sum('length');
+    }
+
+    public function titles() 
+    {
+        return $this->sum('title');
+    }
+}
+
+class Video 
+{
+    public $title;
+    public $length;
+
+    public function __construct($title, $length)
+    {
+        $this->title = $title;
+        $this->length = $length;
+    }
+}
+
+$videos = new VideosCollection ([
+    new Video('Some Video', 100),
+    new Video('Some Video 2', 200),
+    new Video('Some Video 3', 300),
 ]);
 
-
-
+echo $videos->length();
