@@ -1,67 +1,33 @@
 <?php
 
-class Subscription 
+// Avoids primitve obsession - and readability
+// Helps with consistency
+// Immutable
+
+class Age 
 {
+    private $age;
 
-    protected Gateway $gateway;
-
-    public function __construct(Gateway $gateway)
+    public function __construct($age)
     {
-        $this->gateway = $gateway;
+        if ($age < 0 || $age > 120) {
+            throw new InvalidArgumentException('That makes no sense');
+        }
+
+        $this->age = $age;
     }
 
-    public function create()
+    public function increment()
     {
-
+        return new self($this->age + 1);
     }
 
-    public function cancel()
+    public function get()
     {
-        $this->gateway->findCustomer();
-    }
-
-    public function invoice()
-    {
-
-    }
-
-    public function swap($newPlan)
-    {
-
-    }
-
-}
-
-interface Gateway
-{
-    public function findCustomer();
-    public function findSubscriptionByCustomer();
-}
-
-class StripeGateway implements Gateway
-{
-    public function findCustomer()
-    {
-
-    }
-
-    public function findSubscriptionbyCustomer()
-    {
-        
+        return $this->age;
     }
 }
 
-class BraintreeGateway implements Gateway
-{
-    public function findCustomer()
-    {
-
-    }
-
-    public function findSubscriptionbyCustomer()
-    {
-        
-    }
-}
-
-new Subscription(new BraintreeGateway());
+$age = new Age(35);
+$age = $age->increment();
+var_dump($age->get());
