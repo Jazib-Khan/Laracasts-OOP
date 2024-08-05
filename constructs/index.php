@@ -1,27 +1,67 @@
 <?php
-// Encapsulation - an objects way to protect integriy and provide signals.
-class TennisMatch
+
+class Subscription 
 {
 
-    protected $playerOne;
+    protected Gateway $gateway;
 
-    public function score()
+    public function __construct(Gateway $gateway)
     {
+        $this->gateway = $gateway;
+    }
 
-    }   
-
-    protected function hasWinner()
+    public function create()
     {
 
     }
 
-    protected function hasAdvantage()
+    public function cancel()
+    {
+        $this->gateway->findCustomer();
+    }
+
+    public function invoice()
     {
 
     }
 
-    protected function hasinDeuce()
+    public function swap($newPlan)
+    {
+
+    }
+
+}
+
+interface Gateway
+{
+    public function findCustomer();
+    public function findSubscriptionByCustomer();
+}
+
+class StripeGateway implements Gateway
+{
+    public function findCustomer()
+    {
+
+    }
+
+    public function findSubscriptionbyCustomer()
     {
         
     }
 }
+
+class BraintreeGateway implements Gateway
+{
+    public function findCustomer()
+    {
+
+    }
+
+    public function findSubscriptionbyCustomer()
+    {
+        
+    }
+}
+
+new Subscription(new BraintreeGateway());
