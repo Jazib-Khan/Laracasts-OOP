@@ -1,35 +1,27 @@
 <?php
-
-interface Newsletter
+// Encapsulation - an objects way to protect integriy and provide signals.
+class TennisMatch
 {
-    public function subscribe($email);
-}
 
-class CampaignMonitor implements Newsletter
-{
-    public function subscribe($email)
+    protected $playerOne;
+
+    public function score()
     {
-        die('subscribing with Campaign Monitor');
+
+    }   
+
+    protected function hasWinner()
+    {
+
+    }
+
+    protected function hasAdvantage()
+    {
+
+    }
+
+    protected function hasinDeuce()
+    {
+        
     }
 }
-
-class Drip implements Newsletter
-{
-    public function subscribe($email)
-    {
-        die('subscribing with Drip');
-    }
-}
-
-class NewsletterSubscriptionsController
-{
-    public function store(Newsletter $newsletter)
-    {
-        $email = 'joe@example.com';
-        $newsletter->subscribe($email);
-    }
-}
-
-$controller = new NewsletterSubscriptionsController();
-
-$controller->store(new Drip());
